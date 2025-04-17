@@ -35,7 +35,7 @@ if uploaded_file is not None:
 
             # Sélection du genre
             genre_options = ["Tous les participants", "Hommes seulement", "Femmes seulement"]
-            genre_selectionne = st.selectbox("Afficher les résultats pour", genre_options)
+            genre_selectionnee = st.selectbox("Afficher les résultats pour", genre_options)
 
             # Filtrage des données par catégorie d'âge
             if categorie_age_selectionnee == "Toutes catégories":
@@ -44,7 +44,7 @@ if uploaded_file is not None:
                 df_filtre_age = df[df["categorie_age"] == categorie_age_selectionnee]
 
             # Filtrage des données par genre
-            if genre_selectionne == "Hommes seulement":
+            if genre_selectionnee == "Hommes seulement":
                 df_filtre = df_filtre_age[df_filtre_age["femmes_hommes"] == "H"]
             elif genre_selectionnee == "Femmes seulement":
                 df_filtre = df_filtre_age[df_filtre_age["femmes_hommes"] == "F"]
@@ -66,7 +66,7 @@ if uploaded_file is not None:
 
             ax.set_xlabel("Classement")
             ax.set_ylabel("Vitesse moyenne")
-            ax.set_title(f"Vitesse moyenne en fonction du classement \n ({categorie_age_selectionnee}, {genre_selectionne}) ")
+            ax.set_title(f"Vitesse moyenne en fonction du classement ({categorie_age_selectionnee}, {genre_selectionnee})")
             ax.legend()
 
             # Affichage du graphique dans Streamlit
