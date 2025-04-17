@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 DEMO_FILE = "fichier_demo_resultats_course_pour_app_streamlit.csv"
 
 # Titre de l'application
-titre_de_cette_application_du_tonnerre = "Ta course de trail: toi, et les autres"
+titre_de_cette_application_du_tonnerre = "Résultats de ta course de trail, toi, et les autres"
 st.title(titre_de_cette_application_du_tonnerre)
 
 # Texte d'introduction
@@ -19,7 +19,7 @@ texte_section_intro = (
 st.markdown(texte_section_intro)
 
 # Bouton pour charger les données de démonstration
-if st.button("Pas de fichier ?: essaye avec les données de démonstration"):
+if st.button("Tu n'as pas de fichier ? Pas de souci, essaye avec les données de démonstration"):
     try:
         df = pd.read_csv(DEMO_FILE)
         st.info(f"Affichage des données de démonstration")
@@ -38,9 +38,10 @@ else:
 
 # Instructions pour le fichier CSV
 st.info(
-    "Veuillez charger votre propre fichier CSV (avec les colonnes : "
-    "`categorie_age`, `vitesse_moyenne`, `classement`, `femmes_hommes`) "
-    "ou utilisez les données de démonstration ci-dessous."
+    "Attention ! Ton fichier CSV doit avoir les colonnes: "
+    "`categorie_age`, `vitesse_moyenne`, `classement`, `femmes_hommes` "
+    " dans des formats précis  ."
+    "Si tu veux que je t'aide à préparer ton fichier, contacte-moi"
 )
 
 # Upload du fichier CSV (toujours affiché)
@@ -98,7 +99,7 @@ if uploaded_file and df is not None:
 
         # Création du graphique
         fig, ax = plt.subplots(layout="constrained")
-        fig.suptitle(f"{nom_evenement} - {date_course}\n({distance_course})", fontsize=16)
+        fig.suptitle(f"{nom_evenement}\n {date_course}\n Trail de {distance_course} kms", fontsize=12, fontweight="bold")
 
         # Affichage de tous les points en arrière-plan (gris clair, plus petit et transparent)
         ax.scatter(df["classement"], df["vitesse_moyenne"], color="lightgray", alpha=0.3, s=10, label="Tous les participants")
