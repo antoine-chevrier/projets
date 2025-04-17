@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Titre de l'application
-st.title("Visualisation des performances de course à pied")
+st.title("V02 - H/F Visualisation des performances de course à pied")
 
 # Upload du fichier CSV
 uploaded_file = st.file_uploader("Choisissez un fichier CSV", type="csv")
