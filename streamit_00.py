@@ -33,6 +33,12 @@ st.info(
     "`distance_course` (nombre, distance en kilomètres)."
 )
 
+# Initialisation des variables pour éviter les erreurs si aucun fichier n'est chargé
+df = None
+uploaded_file = False
+categorie_age_selectionnee = "Toutes catégories"  # Valeur par défaut
+genre_selectionnee = "Tous les participants"    # Valeur par défaut
+
 # Bouton pour charger les données de démonstration
 if st.button("Pas de fichier ? Essaye avec les données de démonstration !"):
     try:
@@ -47,9 +53,6 @@ if st.button("Pas de fichier ? Essaye avec les données de démonstration !"):
         st.error(f"⚠️ Une erreur est survenue lors de la lecture du fichier de démonstration : {e}")
         df = None
         uploaded_file = False
-else:
-    uploaded_file = False
-    df = None
 
 if uploaded_file_input is not None:
     try:
@@ -61,7 +64,7 @@ if uploaded_file_input is not None:
         uploaded_file = False
     except Exception as e:
         st.error(f"⚠️ Une erreur est survenue lors de la lecture de votre fichier CSV : {e}")
-        st.info("[Contactez le support](#contact)")
+        st.info("[Contact](#contact)")
         df = None
         uploaded_file = False
 
@@ -86,7 +89,7 @@ if uploaded_file and df is not None:
 
         # Sélection du genre
         genre_options = ["Tous les participants", "Hommes seulement", "Femmes seulement"]
-        genre_selectionne = st.selectbox("🧑‍🤝‍🧑‍➡️ Afficher les résultats pour", genre_options)
+        genre_selectionnee = st.selectbox("Sélectionne hommes, femmes, ou tous", genre_options)
 
         # Filtrage des données par catégorie d'âge
         if categorie_age_selectionnee == "Toutes catégories":
@@ -95,7 +98,7 @@ if uploaded_file and df is not None:
             df_filtre_age = df[df["categorie_age"] == categorie_age_selectionnee]
 
         # Filtrage des données par genre
-        if genre_selectionne == "Hommes seulement":
+        if genre_selectionnee == "Hommes seulement":
             df_filtre = df_filtre_age[df_filtre_age["femmes_hommes"] == "H"]
         elif genre_selectionnee == "Femmes seulement":
             df_filtre = df_filtre_age[df_filtre_age["femmes_hommes"] == "F"]
@@ -104,7 +107,7 @@ if uploaded_file and df is not None:
 
         # Création du graphique
         fig, ax = plt.subplots(layout="constrained")
-        fig.suptitle(f"{nom_evenement}\n{date_course} - Trail de {distance_course} km", fontsize=14, fontweight="bold")
+        fig.suptitle(f"{nom_evenement}\n{date_course} - Trail de {distance_course} km", fontsize=10, fontweight="bold")
 
         # Affichage de tous les points en arrière-plan (gris clair, plus petit et transparent)
         ax.scatter(df["classement"], df["vitesse_moyenne"], color="lightgray", alpha=0.3, s=10, label="Tous les participants")
