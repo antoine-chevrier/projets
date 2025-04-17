@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Titre de l'application
-st.title("V02 - H/F Visualisation des performances de course à pied")
+st.title("Visualisation des performances de course à pied")
 
 # Upload du fichier CSV
 uploaded_file = st.file_uploader("Choisissez un fichier CSV", type="csv")
@@ -35,8 +35,13 @@ if uploaded_file is not None:
         else:
             df_filtre = df_filtre_age
 
-        # Création du graphique avec différenciation des couleurs par genre
+        # Création du graphique
         fig, ax = plt.subplots()
+
+        # Affichage de tous les points en arrière-plan (gris clair)
+        ax.scatter(df["classement"], df["vitesse_moyenne"], color="lightgray", alpha=0.5, label="Tous les participants")
+
+        # Affichage des points sélectionnés avec des couleurs spécifiques
         for genre, data in df_filtre.groupby("femmes_hommes"):
             if genre == "H":
                 ax.scatter(data["classement"], data["vitesse_moyenne"], label="Hommes", color="blue")
@@ -45,7 +50,7 @@ if uploaded_file is not None:
 
         ax.set_xlabel("Classement")
         ax.set_ylabel("Vitesse moyenne")
-        ax.set_title(f"Vitesse moyenne en fonction du classement ({categorie_age_selectionnee})")
+        ax.set_title(f"Vitesse moyenne en fonction du classement ({categorie_age_selectionnee}, {genre_selectionne})")
         ax.legend()
 
         # Affichage du graphique dans Streamlit
