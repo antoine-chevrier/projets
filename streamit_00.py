@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Titre de l'application
 st.title("Visualisation des performances de course à pied")
@@ -12,14 +13,45 @@ st.info(
     "`classement` (nombre), `femmes_hommes` ('H' ou 'F')."
 )
 
-# Upload du fichier CSV
-uploaded_file = st.file_uploader("Choisissez un fichier CSV", type="csv")
+# Fonction pour générer un DataFrame de démonstration
+def generate_demo_data(num_rows=100):
+    categories = ["18-25", "25-35", "35-45", "45+"]
+    genres = ["H", "F"]
+    data = {
+        "categorie_age": np.random.choice(categories, num_rows),
+        "vitesse_moyenne": np.random.uniform(10, 20, num_rows),
+        "classement": np.random.randint(1, num_rows + 1, num_rows),
+        "femmes_hommes": np.random.choice(genres, num_rows),
+    }
+    df_demo = pd.DataFrame(data)
+    return df_demo
 
-if uploaded_file is not None:
-    try:
-        # Lecture du fichier CSV
-        df = pd.read_csv(uploaded_file)
+# Bouton pour lancer la démo
+if st.button("Lancer une démo avec des données fictives"):
+    df = generate_demo_data()
+    st.info("Vous utilisez des données de démonstration.")
+    uploaded_file = True # Simuler un fichier uploadé pour que le reste du code s'exécute
+else:
+    # Upload du fichier CSV
+    uploaded_file = st.file_uploader("Choisissez un fichier CSV", type="csv")
+    if uploaded_file is not None:
+        try:
+            # Lecture du fichier CSV
+            df = pd.read_csv(uploaded_file)
+        except pd.errors.EmptyDataError:
+            st.error("Le fichier CSV est vide ou n'a pas pu être lu correctement.")
+            df = None
+            uploaded_file = None
+        except Exception as e:
+            st.error(f"Une erreur est survenue lors de la lecture du fichier CSV : {e}")
+            st.info("[Contactez le support](#contact)")
+            df = None
+            uploaded_file = None
+    else:
+        df = None
 
+if uploaded_file:
+    if df is not None:
         # Vérification des colonnes
         required_columns = ["categorie_age", "vitesse_moyenne", "classement", "femmes_hommes"]
         if not all(col in df.columns for col in required_columns):
@@ -72,14 +104,9 @@ if uploaded_file is not None:
             # Affichage du graphique dans Streamlit
             st.pyplot(fig)
 
-    except pd.errors.EmptyDataError:
-        st.error("Le fichier CSV est vide ou n'a pas pu être lu correctement.")
-    except Exception as e:
-        st.error(f"Une erreur est survenue lors de la lecture du fichier CSV : {e}")
-        st.info("[Contactez le support](#contact)")
+elif uploaded_file is None:
+    st.write("Veuillez charger un fichier CSV ou utiliser la démo.")
 
-else:
-    st.write("Veuillez charger un fichier CSV.")
 
 # Section Contact
 st.markdown("---")
