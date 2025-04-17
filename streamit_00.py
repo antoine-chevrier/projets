@@ -6,12 +6,15 @@ import matplotlib.pyplot as plt
 DEMO_FILE = "fichier_demo_resultats_course_pour_app_streamlit.csv"
 
 # Titre de l'application
-st.title("Ta course de trail, toi, et les autres")
+titre_de_cette_application_du_tonnerre = "Ta course de trail, toi, et les autres"
+st.title(titre_de_cette_application_du_tonnerre)
 
 # Texte d'introduction
-st.markdown("Tu peux:    ")
-st.markdown("- soit chargr le fichier de résultats de la course - voir info et boutons de téléchargement ci-dessous")
-st.markdown("- soit utiliser les données de démonstration - voir bouton ci-dessous")
+texte_section_intro = (
+    f"Sur cette page, tu peux:    \n"
+    f"- soit chargr le fichier de résultats de la course - voir info et boutons de téléchargement ci-dessous    \n"
+    f"- soit utiliser les données de démonstration - voir bouton ci-dessous"
+st.markdown(texte_section_intro)
 
 # Bouton pour charger les données de démonstration
 if st.button("Charger les données de démonstration"):
