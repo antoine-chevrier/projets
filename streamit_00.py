@@ -26,7 +26,7 @@ if uploaded_file is not None:
             st.error(
                 "Le fichier CSV ne contient pas les colonnes requises. "
                 f"Veuillez vous assurer qu'il contient : {', '.join(required_columns)}. "
-                "[Contactez le support](#contact)"  # Lien vers la section contact (à ajouter plus tard si souhaité)
+                "[Contactez le support](#contact)"
             )
         else:
             # Sélection de la catégorie d'âge
@@ -46,7 +46,7 @@ if uploaded_file is not None:
             # Filtrage des données par genre
             if genre_selectionne == "Hommes seulement":
                 df_filtre = df_filtre_age[df_filtre_age["femmes_hommes"] == "H"]
-            elif genre_selectionne == "Femmes seulement":
+            elif genre_selectionnee == "Femmes seulement":
                 df_filtre = df_filtre_age[df_filtre_age["femmes_hommes"] == "F"]
             else:
                 df_filtre = df_filtre_age
@@ -54,19 +54,19 @@ if uploaded_file is not None:
             # Création du graphique
             fig, ax = plt.subplots()
 
-            # Affichage de tous les points en arrière-plan (gris clair)
-            ax.scatter(df["classement"], df["vitesse_moyenne"], color="lightgray", alpha=0.5, label="Tous les participants")
+            # Affichage de tous les points en arrière-plan (gris clair, plus petit et transparent)
+            ax.scatter(df["classement"], df["vitesse_moyenne"], color="lightgray", alpha=0.3, s=10, label="Tous les participants")
 
-            # Affichage des points sélectionnés avec des couleurs spécifiques
+            # Affichage des points sélectionnés (plus petits et transparents)
             for genre, data in df_filtre.groupby("femmes_hommes"):
                 if genre == "H":
-                    ax.scatter(data["classement"], data["vitesse_moyenne"], label="Hommes", color="blue")
+                    ax.scatter(data["classement"], data["vitesse_moyenne"], label="Hommes", color="blue", alpha=0.6, s=20)
                 elif genre == "F":
-                    ax.scatter(data["classement"], data["vitesse_moyenne"], label="Femmes", color="red")
+                    ax.scatter(data["classement"], data["vitesse_moyenne"], label="Femmes", color="red", alpha=0.6, s=20)
 
             ax.set_xlabel("Classement")
             ax.set_ylabel("Vitesse moyenne")
-            ax.set_title(f"Vitesse moyenne en fonction du classement ({categorie_age_selectionnee}, {genre_selectionne})")
+            ax.set_title(f"Vitesse moyenne en fonction du classement \n ({categorie_age_selectionnee}, {genre_selectionne}) ")
             ax.legend()
 
             # Affichage du graphique dans Streamlit
@@ -76,12 +76,12 @@ if uploaded_file is not None:
         st.error("Le fichier CSV est vide ou n'a pas pu être lu correctement.")
     except Exception as e:
         st.error(f"Une erreur est survenue lors de la lecture du fichier CSV : {e}")
-        st.info("[Contactez le support](#contact)") # Lien en cas d'autre erreur
+        st.info("[Contactez le support](#contact)")
 
 else:
     st.write("Veuillez charger un fichier CSV.")
 
-# Section Contact (optionnelle, pour illustrer le lien)
+# Section Contact
 st.markdown("---")
 st.markdown("<h2 id='contact'>Contactez le support</h2>", unsafe_allow_html=True)
 st.write("Si vous rencontrez des problèmes, veuillez contacter : votre.email@exemple.com")
