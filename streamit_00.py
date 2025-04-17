@@ -14,6 +14,8 @@ texte_section_intro = (
     f"Sur cette page, tu peux:    \n"
     f"- soit chargr le fichier de résultats de la course - voir info et boutons de téléchargement ci-dessous    \n"
     f"- soit utiliser les données de démonstration - voir bouton ci-dessous"
+)
+
 st.markdown(texte_section_intro)
 
 # Bouton pour charger les données de démonstration
