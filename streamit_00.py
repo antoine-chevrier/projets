@@ -13,22 +13,40 @@ if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
 
     # Vérification des colonnes
-    if "categorie_age" not in df.columns or "vitesse_moyenne" not in df.columns or "classement" not in df.columns:
-        st.error("Le fichier CSV doit contenir les colonnes 'categorie_age', 'vitesse_moyenne' et 'classement'.")
+    if "categorie_age" not in df.columns or "vitesse_moyenne" not in df.columns or "classement" not in df.columns or "femmes_hommes" not in df.columns:
+        st.error("Le fichier CSV doit contenir les colonnes 'categorie_age', 'vitesse_moyenne', 'classement' et 'femmes_hommes'.")
     else:
         # Sélection de la catégorie d'âge
         categories_age = df["categorie_age"].unique()
         categorie_age_selectionnee = st.selectbox("Sélectionnez une catégorie d'âge", categories_age)
 
-        # Filtrage des données
-        df_filtre = df[df["categorie_age"] == categorie_age_selectionnee]
+        # Sélection du genre
+        genre_options = ["Tous", "Hommes", "Femmes"]
+        genre_selectionne = st.selectbox("Afficher les résultats pour", genre_options)
 
-        # Création du graphique
+        # Filtrage des données par catégorie d'âge
+        df_filtre_age = df[df["categorie_age"] == categorie_age_selectionnee]
+
+        # Filtrage des données par genre
+        if genre_selectionne == "Hommes":
+            df_filtre = df_filtre_age[df_filtre_age["femmes_hommes"] == "H"]
+        elif genre_selectionne == "Femmes":
+            df_filtre = df_filtre_age[df_filtre_age["femmes_hommes"] == "F"]
+        else:
+            df_filtre = df_filtre_age
+
+        # Création du graphique avec différenciation des couleurs par genre
         fig, ax = plt.subplots()
-        ax.scatter(df_filtre["classement"], df_filtre["vitesse_moyenne"])
+        for genre, data in df_filtre.groupby("femmes_hommes"):
+            if genre == "H":
+                ax.scatter(data["classement"], data["vitesse_moyenne"], label="Hommes", color="blue")
+            elif genre == "F":
+                ax.scatter(data["classement"], data["vitesse_moyenne"], label="Femmes", color="red")
+
         ax.set_xlabel("Classement")
         ax.set_ylabel("Vitesse moyenne")
         ax.set_title(f"Vitesse moyenne en fonction du classement ({categorie_age_selectionnee})")
+        ax.legend()
 
         # Affichage du graphique dans Streamlit
         st.pyplot(fig)
