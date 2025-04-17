@@ -6,20 +6,18 @@ import matplotlib.pyplot as plt
 DEMO_FILE = "fichier_demo_resultats_course_pour_app_streamlit.csv"
 
 # Titre de l'application
-st.title("Visualisation des performances de course à pied")
+st.title("Ta course de trail, toi, et les autres")
 
-# Instructions pour le fichier CSV
-st.info(
-    "Veuillez charger votre propre fichier CSV (avec les colonnes : "
-    "`categorie_age`, `vitesse_moyenne`, `classement`, `femmes_hommes`) "
-    "ou utilisez les données de démonstration ci-dessous."
-)
+# Texte d'introduction
+st.markdown("Tu peux:    ")
+st.markdown("- soit chargr le fichier de résultats de la course - voir info et boutons de téléchargement ci-dessous")
+st.markdown("- soit utiliser les données de démonstration - voir bouton ci-dessous")
 
 # Bouton pour charger les données de démonstration
 if st.button("Charger les données de démonstration"):
     try:
         df = pd.read_csv(DEMO_FILE)
-        st.info(f"Affichage des données de la course : {df['nom_evenement'].iloc[0]} du {df['date_de_la_course'].iloc[0]} ({df['distance_course'].iloc[0]})")
+        st.info(f"Affichage des données de démonstration")
         uploaded_file = True
     except FileNotFoundError:
         st.error(f"Le fichier de démonstration '{DEMO_FILE}' n'a pas été trouvé. Veuillez vous assurer qu'il se trouve dans le même répertoire que ce script.")
@@ -32,6 +30,13 @@ if st.button("Charger les données de démonstration"):
 else:
     uploaded_file = False
     df = None
+
+# Instructions pour le fichier CSV
+st.info(
+    "Veuillez charger votre propre fichier CSV (avec les colonnes : "
+    "`categorie_age`, `vitesse_moyenne`, `classement`, `femmes_hommes`) "
+    "ou utilisez les données de démonstration ci-dessous."
+)
 
 # Upload du fichier CSV (toujours affiché)
 uploaded_file_input = st.file_uploader("Choisissez votre fichier CSV", type="csv")
@@ -109,5 +114,5 @@ if uploaded_file and df is not None:
 
 # Section Contact
 st.markdown("---")
-st.markdown("<h2 id='contact'>Contactez le support</h2>", unsafe_allow_html=True)
-st.write("Si vous rencontrez des problèmes, veuillez contacter : votre.email@exemple.com")
+st.markdown("<h2 id='contact'>Contact</h2>", unsafe_allow_html=True)
+st.markdown("Me contacter : `contact.a.chevrier@gmail.com`")
