@@ -5,6 +5,13 @@ import matplotlib.pyplot as plt
 # Nom du fichier de démonstration
 DEMO_FILE = "fichier_demo_resultats_course_pour_app_streamlit.csv"
 
+# Ordre des catégories d'âge FFA
+FFA_CATEGORIES_ORDER = [
+    "Toutes catégories",
+    "EA", "PO", "BE", "MI", "CA", "JU", "ES", "SE",
+    "M0", "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9"
+]
+
 # Titre de l'application (hyper cool et amical)
 titre_de_cette_application_du_tonnerre = "Résultats de ta course de trail, toi, et les autres !"
 st.title(titre_de_cette_application_du_tonnerre)
@@ -24,7 +31,7 @@ uploaded_file_input = st.file_uploader("Choisis ton fichier CSV de résultats de
 st.info(
     "ℹ️ **Info fichier CSV :**\n"
     "Ton fichier doit contenir les colonnes suivantes, avec des noms exacts :\n"
-    "`categorie_age` (ex: '18-25', '35-45', etc.),\n"
+    "`categorie_age` (ex: 'EA', 'M1', 'SE', etc.),\n"
     "`vitesse_moyenne` (nombre avec un point comme séparateur décimal),\n"
     "`classement` (nombre entier),\n"
     "`femmes_hommes` ('H' pour homme, 'F' pour femme),\n"
@@ -41,7 +48,7 @@ uploaded_file = False
 if st.button("Pas de fichier ? Essaye avec les données de démonstration !"):
     try:
         df_demo = pd.read_csv(DEMO_FILE)
-        st.session_state['demo_data'] = df_demo  # Stockage dans la session
+        st.session_state['demo_data'] = df_demo
         st.info(f"📊 Affichage des données de démonstration de la course : {st.session_state['demo_data']['nom_evenement'].iloc[0]} du {st.session_state['demo_data']['date_de_la_course'].iloc[0]} ({st.session_state['demo_data']['distance_course'].iloc[0]} km)")
         uploaded_file = True
     except FileNotFoundError:
@@ -56,7 +63,7 @@ if st.button("Pas de fichier ? Essaye avec les données de démonstration !"):
 if uploaded_file_input is not None:
     try:
         df = pd.read_csv(uploaded_file_input)
-        st.session_state.pop('demo_data', None) # Supprimer les données de démo si un nouveau fichier est chargé
+        st.session_state.pop('demo_data', None)
         uploaded_file = True
     except pd.errors.EmptyDataError:
         st.error("⚠️ Le fichier CSV est vide ou n'a pas pu être lu correctement.")
@@ -86,8 +93,9 @@ if uploaded_file and df is not None:
         date_course = df["date_de_la_course"].iloc[0]
         distance_course = df["distance_course"].iloc[0]
 
-        # Sélection de la catégorie d'âge
-        categories_age = ["Toutes catégories"] + list(df["categorie_age"].unique())
+        # Sélection de la catégorie d'âge (ordonnée selon la FFA)
+        existing_categories = sorted(df["categorie_age"].unique(), key=lambda x: FFA_CATEGORIES_ORDER.index(x) if x in FFA_CATEGORIES_ORDER else len(FFA_CATEGORIES_ORDER))
+        categories_age = ["Toutes catégories"] + existing_categories
         categorie_age_selectionnee = st.selectbox("🏃‍♂️ Sélectionne la catégorie d'âge", categories_age)
 
         # Sélection du genre
