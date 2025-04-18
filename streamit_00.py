@@ -33,17 +33,16 @@ st.info(
     "`distance_course` (nombre, distance en kilomètres)."
 )
 
-# Initialisation des variables pour éviter les erreurs si aucun fichier n'est chargé
+# Initialisation des variables
 df = None
 uploaded_file = False
-categorie_age_selectionnee = "Toutes catégories"  # Valeur par défaut
-genre_selectionnee = "Tous les participants"    # Valeur par défaut
 
 # Bouton pour charger les données de démonstration
 if st.button("Pas de fichier ? Essaye avec les données de démonstration !"):
     try:
-        df = pd.read_csv(DEMO_FILE)
-        st.info(f"📊 Affichage des données de démonstration de la course : {df['nom_evenement'].iloc[0]} du {df['date_de_la_course'].iloc[0]} ({df['distance_course'].iloc[0]} km)")
+        df_demo = pd.read_csv(DEMO_FILE)
+        st.session_state['demo_data'] = df_demo  # Stockage dans la session
+        st.info(f"📊 Affichage des données de démonstration de la course : {st.session_state['demo_data']['nom_evenement'].iloc[0]} du {st.session_state['demo_data']['date_de_la_course'].iloc[0]} ({st.session_state['demo_data']['distance_course'].iloc[0]} km)")
         uploaded_file = True
     except FileNotFoundError:
         st.error(f"⚠️ Le fichier de démonstration '{DEMO_FILE}' n'a pas été trouvé. Assure-toi qu'il est dans le même répertoire que ce script.")
@@ -57,6 +56,7 @@ if st.button("Pas de fichier ? Essaye avec les données de démonstration !"):
 if uploaded_file_input is not None:
     try:
         df = pd.read_csv(uploaded_file_input)
+        st.session_state.pop('demo_data', None) # Supprimer les données de démo si un nouveau fichier est chargé
         uploaded_file = True
     except pd.errors.EmptyDataError:
         st.error("⚠️ Le fichier CSV est vide ou n'a pas pu être lu correctement.")
@@ -67,6 +67,9 @@ if uploaded_file_input is not None:
         st.info("[Contact](#contact)")
         df = None
         uploaded_file = False
+elif 'demo_data' in st.session_state:
+    df = st.session_state['demo_data']
+    uploaded_file = True
 
 if uploaded_file and df is not None:
     # Vérification des colonnes
@@ -89,7 +92,7 @@ if uploaded_file and df is not None:
 
         # Sélection du genre
         genre_options = ["Tous les participants", "Hommes seulement", "Femmes seulement"]
-        genre_selectionnee = st.selectbox("Sélectionne hommes, femmes, ou tous", genre_options)
+        genre_selectionnee = st.selectbox("🧑‍🤝‍🧑‍➡️ Afficher les résultats pour", genre_options)
 
         # Filtrage des données par catégorie d'âge
         if categorie_age_selectionnee == "Toutes catégories":
@@ -107,7 +110,7 @@ if uploaded_file and df is not None:
 
         # Création du graphique
         fig, ax = plt.subplots(layout="constrained")
-        fig.suptitle(f"{nom_evenement}\n{date_course} - Trail de {distance_course} km", fontsize=10, fontweight="bold")
+        fig.suptitle(f"{nom_evenement}\n{date_course} - Trail de {distance_course} km", fontsize=14, fontweight="bold")
 
         # Affichage de tous les points en arrière-plan (gris clair, plus petit et transparent)
         ax.scatter(df["classement"], df["vitesse_moyenne"], color="lightgray", alpha=0.3, s=10, label="Tous les participants")
