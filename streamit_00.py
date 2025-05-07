@@ -449,7 +449,7 @@ def bloc_contact():
     - `.chevrier`
     - `@gmail.com`
 
-    ## Merci à vous amis traileuses et traileurs !
+    ## Merci à vous les amies traileuses et les amis traileurs !
     """)
     
 
