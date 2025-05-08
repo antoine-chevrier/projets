@@ -312,7 +312,24 @@ def bloc_graphique(df_selection, df_complet):
 
     plt.tight_layout()
     plt.subplots_adjust(bottom=0.15)
-    st.pyplot(fig)
+    
+    # stockage de l'image en mémoire
+    buf = io.BytesIO() # création d'un buffer en mémoire
+    fig.savefig(buf, format="png") # sauvegarde de l'image en mémoire au format png
+    buf.seek(0) # on place le curseur au début du buffer pour que streamlit début au début du buffer
+
+    # Affichage de l'image à partir du buffer, pour qu'elle soit zoomable
+    st.image(buf, caption="Graphique zoomable", use_column_width=True)
+    # st.pyplot(fig) 
+    # on utilise pas pyplot() car cela empêche parfois de zoomer l'image
+
+    # Ajout d'un bouton pour télécharger l'image
+    st.download_button(
+        label="Télécharge de graphe au format PNG",
+        data=buf,
+        file_name="ton-petit-graph-de-trail.png",
+        mime="image/png"
+    )
 
 # ----------------------------------------------------------------------------
 # BLOC DES EXPLICATIONS
