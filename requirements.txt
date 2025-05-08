@@ -1,8 +1,8 @@
-python==3.10
+
 streamlit
 pandas
 matplotlib
 numpy
 Path
 seaborn
-io
+
