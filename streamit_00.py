@@ -112,12 +112,17 @@ def affiche_la_section_entete():
 # ----------------------------------------------------------------------------
 
 def bloc_selection_donnees():
-    st.markdown("## Étape 1. 📂 Choisis le fichier à utiliser:")
-    st.markdown("""
-    *Voir les [explications](#explications) pour connaître
-    le format de fichier à utiliser. Ou [contacte-moi](#contact) 
-    si tu as besoin d'aide.*
-    """)
+    titre_section = (
+        f"## Étape 1. 📂 Téléverse un fichier de résultats de trail "
+        f"ou utilise la démo"
+    )
+    sous_titre_section = (
+        f"Tu as besoin d'aide pour le fichier de ton trail ?    \n"
+        f"[contacte-moi](#contact) pour que j'essaye de le générer pour toi.    \n"
+        f"Voir aussi les [explications](#explications)"
+    )
+    st.markdown(titre_section)
+    st.amrdown(sous_titre_section)
     choix_1 = "Téléversement de ton fichier de résultat de trail"
     choix_2= "Utilisation du fichier de démo"
     option = st.radio(
