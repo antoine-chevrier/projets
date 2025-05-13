@@ -122,7 +122,7 @@ def bloc_selection_donnees():
         f"Voir aussi les [explications](#explications)"
     )
     st.markdown(titre_section)
-    st.amrdown(sous_titre_section)
+    st.markdown(sous_titre_section)
     choix_1 = "Téléversement de ton fichier de résultat de trail"
     choix_2= "Utilisation du fichier de démo"
     option = st.radio(
