@@ -94,8 +94,11 @@ def affiche_la_section_entete():
         f"{nom_de_l_app}"
     )
     sous_titre = (
-        f"Un simple graphique de résultats d'un trail: "
-        f"vitesse/classement par catégorie d'âges + femmes/hommes    \n"
+        f"**Cette application toute simple, "
+        f"te permet de visualiser les résultats d'un trail "
+        f"en affichant la vitesse, le classement, "
+        f"en te donnant la possibilité de choisir la catégorie d'âges "
+        f"et femmes/hommes**    \n"
         f"🏃‍♀️🏃‍♂️🏃‍♀️🏃"
         )
     menu_haut_de_page = (
