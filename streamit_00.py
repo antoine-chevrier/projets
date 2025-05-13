@@ -120,9 +120,9 @@ def bloc_selection_donnees():
         f"ou utilise la démo"
     )
     sous_titre_section = (
-        f"Tu as besoin d'aide pour le fichier de ton trail ?    \n"
-        f"[contacte-moi](#contact) pour que j'essaye de le générer pour toi.    \n"
-        f"Voir aussi les [explications](#explications)"
+        f"**Si tu as besoin d'aide pour le fichier de ton trail, "
+        f"[contacte-moi](#contact) pour que j'essaye de le générer pour toi.** "
+        f"Tu peux aussi consulter les [explications](#explications)"
     )
     st.markdown(titre_section)
     st.markdown(sous_titre_section)
