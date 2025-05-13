@@ -85,9 +85,17 @@ def afficher_dataframe(df):
 # ----------------------------------------------------------------------------
 
 def affiche_la_section_entete():
-    titre = (
-        f"Graphique de résultats d'un trail: "
-        f"vitesse/classement par catégorie d'âges + femmes/hommes "
+    # un nom pour l'app un peu évocateur 
+    # sans se prendre la tête
+    # sans se chopper le melon (parce qu'il y en a quand même 
+    # qui ont bien choppé l'melon dans cet univers du trail ... c'est dingue !)
+    nom_de_l_app = "GraphicTrailRunners" 
+    titre_principal = (
+        f"{nom_de_l_app}"
+    )
+    sous_titre = (
+        f"Un simple graphique de résultats d'un trail: "
+        f"vitesse/classement par catégorie d'âges + femmes/hommes    \n"
         f"🏃‍♀️🏃‍♂️🏃‍♀️🏃"
         )
     menu_haut_de_page = (
@@ -96,6 +104,7 @@ def affiche_la_section_entete():
         f"[Contact](#contact)"
     )
     st.title(titre)
+    st.markdown(sous_titre)
     st.markdown(menu_haut_de_page)
     
 # ----------------------------------------------------------------------------
