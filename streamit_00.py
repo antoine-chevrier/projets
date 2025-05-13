@@ -112,7 +112,7 @@ def affiche_la_section_entete():
 # ----------------------------------------------------------------------------
 
 def bloc_selection_donnees():
-    st.markdown("## 1. 📂 Choisis le fichier à utiliser:")
+    st.markdown("## Étape 1. 📂 Choisis le fichier à utiliser:")
     st.markdown("""
     *Voir les [explications](#explications) pour connaître
     le format de fichier à utiliser. Ou [contacte-moi](#contact) 
@@ -147,7 +147,7 @@ def bloc_selection_donnees():
     
 def bloc_filtres_selection(df):
     # Sélection par sexe avec boutons horizontaux
-    st.markdown("## 2. Choisis la catégorie Femme ou Homme:")
+    st.markdown("## Étape 2. Choisis la catégorie Femme ou Homme:")
     sexe_selection = st.radio(
         "2.Choisis la catégorie Femme ou Homme:",
         ["Hommes et Femmes", "Femmes", "Hommes"],
@@ -180,7 +180,7 @@ def bloc_filtres_selection(df):
     # Trier selon la FFA
     categories_ordonnee = reorder_subset(liste_cat_age_ffa, categories_age_disponibles)
 
-    st.markdown("## 3. Choisis une catégorie d’âge :")
+    st.markdown("## Étape 3. Choisis une catégorie d’âge :")
     categorie_selection = st.selectbox(
         "3.Choisis une catégorie d’âge :",
         options = ["Toutes les catégories"]+categories_ordonnee,
@@ -203,7 +203,7 @@ def bloc_filtres_selection(df):
 def bloc_graphique(df_selection, df_complet):
 
     # st.header("Graphique : vitesse moyenne et position à l’arrivée")
-    st.markdown("## 4. Visualise les résultats")
+    st.markdown("## Étape 4. Visualise les résultats")
     
     if df_complet is None or df_complet.empty:
         st.warning("Pas de données à afficher.")
