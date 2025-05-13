@@ -103,7 +103,7 @@ def affiche_la_section_entete():
         f" | "
         f"[Contact](#contact)"
     )
-    st.title(titre)
+    st.title(titre_principal
     st.markdown(sous_titre)
     st.markdown(menu_haut_de_page)
     
