@@ -308,7 +308,7 @@ def bloc_graphique(df_selection, df_complet):
     axe1.set_ylim(bottom=0, top=y_max + 4)
     axe1.set_xlim(right=df_complet["classement_general"].max() * 1.05)
     axe1.grid(True, linestyle='--', alpha=0.3)
-    axe1.legend(title='Sexe', title_fontsize=7, loc='lower left')
+    axe1.legend(title='Femmes/Hommes', title_fontsize=9, fontsize=9, loc='lower left')
 
     # Zone texte
     axe2.axis('off')
